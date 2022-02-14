@@ -4,6 +4,9 @@ import com.sunglowsys.domain.Hotel;
 import com.sunglowsys.service.HotelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,23 +46,29 @@ public class HotelResource {
     }
 
     @GetMapping("/hotels")
-    public ResponseEntity<List<Hotel>> getAllHotels() {
+    public ResponseEntity<List<Hotel>> getAllHotels(Pageable pageable) {
         log.debug("REST request to get a List of Hotels");
-        List<Hotel> result = hotelService.findAll();
-        return ResponseEntity.ok().body(result);
+        Page<Hotel> result = hotelService.findAll(pageable);
+        return ResponseEntity
+                .ok()
+                .body(result.getContent());
     }
 
     @GetMapping("/hotels/{id}")
     public ResponseEntity<Hotel> getHotel(@PathVariable Long id) {
         log.debug("REST request to get Hotel : {}", id);
         Optional<Hotel> result = hotelService.findById(id);
-        return ResponseEntity.ok().body(result.get());
+        return ResponseEntity
+                .ok()
+                .body(result.get());
     }
 
     @DeleteMapping("/hotels/{id}")
     public ResponseEntity<Void> deleteHotel(@PathVariable Long id) {
         log.debug("REST request to delete Hotel : {}", id);
         hotelService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }

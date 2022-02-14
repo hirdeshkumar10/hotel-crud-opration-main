@@ -4,6 +4,8 @@ import com.sunglowsys.domain.Hotel;
 import com.sunglowsys.repository.HotelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +35,9 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
-    public List<Hotel> findAll() {
+    public Page<Hotel> findAll(Pageable pageable) {
         log.debug("Request to get all Hotels");
-        return hotelRepository.findAll();
+        return hotelRepository.findAll(pageable);
     }
 
     @Override
