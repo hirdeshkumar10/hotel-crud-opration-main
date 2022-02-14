@@ -47,7 +47,7 @@ public class HotelResource {
 
     @GetMapping("/hotels")
     public ResponseEntity<List<Hotel>> getAllHotels(Pageable pageable) {
-        log.debug("REST request to get a List of Hotels");
+        log.debug("REST request to get a List of Hotels: {}",pageable.toString());
         Page<Hotel> result = hotelService.findAll(pageable);
         return ResponseEntity
                 .ok()
